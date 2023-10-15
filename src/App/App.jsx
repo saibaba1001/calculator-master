@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import "./App.css";
 import OperatorsNumSection from "./operators-num-section/operators-num-section.jsx";
 
@@ -8,8 +8,8 @@ class CalculatorApp extends Component {
   };
 
   ButtonPressed = (btn) => {
-    console.log(this.state.value);
     if (btn === "=") {
+      this.state.value = this.state.value[0] == "0" ? this.state.value.slice(1) : this.state.value
       this.setState({
         value: eval(this.state.value),
       });
@@ -22,12 +22,18 @@ class CalculatorApp extends Component {
         value: this.state.value.slice(0, -1),
       });
     } else {
-      this.setState({
-        value: this.state.value + btn,
-      });
+      if (this.state.value.length == 1 && this.state.value == 0) {
+        this.setState({
+          value: 0
+        });
+      } else {
+        this.setState({
+          value: this.state.value + btn,
+        });
+      }
     }
   };
-
+  
   render() {
     return (
       <div className="calculator-app">
